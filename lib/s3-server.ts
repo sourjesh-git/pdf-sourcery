@@ -1,12 +1,10 @@
 import { S3 } from "@aws-sdk/client-s3";
 import fs from "fs";
-import path from 'path';
-
 export async function downloadFromS3(file_key: string): Promise<string> {
   return new Promise(async (resolve, reject) => {
     try {
       const s3 = new S3({
-        endpoint: 'https://s3.us-east-005.backblazeb2.com', // Your custom Backblaze endpoint
+        endpoint:'https://s3-us-east-005.backblazeb2.com', 
         region: "us-east-005",
         credentials: {
           accessKeyId: process.env.NEXT_PUBLIC_S3_ACCESS_KEY_ID!,
@@ -19,10 +17,7 @@ export async function downloadFromS3(file_key: string): Promise<string> {
       };
 
       const obj = await s3.getObject(params);
-      const customDir = 'uploads/';
-  
-      // Define file name and full path
-      const file_name = path.join(customDir, `elliott${Date.now().toString()}.pdf`);
+      const file_name = `/tmp/elliott${Date.now().toString()}.pdf`;
 
       if (obj.Body instanceof require("stream").Readable) {
         // AWS-SDK v3 has some issues with their typescript definitions, but this works
@@ -44,4 +39,3 @@ export async function downloadFromS3(file_key: string): Promise<string> {
     }
   });
 }
-

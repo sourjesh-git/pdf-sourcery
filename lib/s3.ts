@@ -6,7 +6,7 @@ export async function uploadToS3(
   return new Promise((resolve, reject) => {
     try {
       const s3 = new S3({
-        endpoint: 'https://s3.us-east-005.backblazeb2.com', // Your custom Backblaze endpoint
+        endpoint: 'https://s3.us-east-005.backblazeb2.com', 
         region: "us-east-005",
         credentials: {
           accessKeyId: process.env.NEXT_PUBLIC_S3_ACCESS_KEY_ID!,
@@ -15,7 +15,7 @@ export async function uploadToS3(
       });
 
       const file_key =
-        'uploads/' + Date.now().toString() + file.name.replace(" ", "-");
+         Date.now().toString() + file.name.replace(" ", "-");
 
       const params = {
         Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME!,
@@ -38,6 +38,6 @@ export async function uploadToS3(
 }
 
 export function getS3Url(file_key: string) {
-  const url = `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.us-east-005.backblazeb2.com/${file_key}`;
+  const url = `https://s3.us-east-005.backblazeb2.com`;
   return url;
 }
